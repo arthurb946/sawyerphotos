@@ -312,11 +312,6 @@
     /* ─── Photo Showcase ────────────────────────────────── */
     .showcase {
       padding: 0;
-      overflow: hidden;
-    }
-
-    .showcase__track-wrapper {
-      position: relative;
     }
 
     .showcase__label {
@@ -364,9 +359,11 @@
       display: flex;
       gap: 3px;
       will-change: transform;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
     }
-
-    .showcase__strip::-webkit-scrollbar { display: none; }
 
     .showcase__item {
       flex: 0 0 auto;
@@ -414,7 +411,7 @@
 
     /* ─── About ─────────────────────────────────────────── */
     .about {
-      padding: 120px 48px;
+      padding: 60px 48px 120px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 80px;
@@ -806,6 +803,7 @@
       cursor: pointer;
       padding: 4px;
       z-index: 200;
+      position: relative;
     }
 
     .nav__burger span {
@@ -814,17 +812,25 @@
       height: 1.5px;
       background: var(--text);
       transform-origin: center;
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                  opacity 0.2s ease,
-                  width 0.3s ease;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.25s ease,
+                  top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: absolute;
+      left: 4px;
+      width: calc(100% - 8px);
     }
 
+    .nav__burger span:first-child { top: 9px; }
+    .nav__burger span:last-child  { top: 17px; }
+
     .nav__burger.open span:first-child {
-      transform: translateY(3.75px) rotate(45deg);
+      top: 13px;
+      transform: rotate(45deg);
     }
 
     .nav__burger.open span:last-child {
-      transform: translateY(-3.75px) rotate(-45deg);
+      top: 13px;
+      transform: rotate(-45deg);
     }
 
     /* ─── Fullscreen mobile menu ────────────────────────── */
@@ -880,6 +886,15 @@
     .mobile-menu.open .mobile-menu__link:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
     .mobile-menu.open .mobile-menu__link:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.18s; }
     .mobile-menu.open .mobile-menu__link:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.26s; }
+
+    .mobile-menu__link--home {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
 
     .mobile-menu__footer {
       display: flex;
@@ -940,6 +955,11 @@
       nav.scrolled { padding: 16px 24px; }
       .nav__links { display: none; }
       .nav__burger { display: flex; }
+
+      .hero__bg {
+        background-image: url('sandwich.jpeg');
+        background-position: center center;
+      }
 
       .hero__content { padding: 0 24px 56px; }
 
@@ -1025,6 +1045,7 @@
         <li><a href="#contact" class="mobile-menu__link">Contact</a></li>
       </ul>
       <div class="mobile-menu__footer">
+        <a href="#" class="mobile-menu__link mobile-menu__link--home">↑ Back to top</a>
         <a href="mailto:hello@sawyerandco.com" class="mobile-menu__detail">hello@sawyerandco.com</a>
         <a href="https://www.instagram.com/sawyerandco_/" target="_blank" rel="noopener" class="mobile-menu__detail">@sawyerandco_</a>
         <p class="mobile-menu__credit">Website by <a href="https://wearekern.co.uk" target="_blank" rel="noopener">wearekern.</a></p>
@@ -1046,7 +1067,7 @@
 
   <!-- ─── Photo Showcase ────────────────────────────── -->
   <section class="showcase" id="work" aria-label="Portfolio" style="height: 400vh;">
-    <div class="showcase__label reveal" style="position: sticky; top: 0; z-index: 2; padding-top: 80px; padding-bottom: 0; background: var(--bg);">
+    <div class="showcase__label reveal">
       <h2>Selected Work</h2>
       <span>Hospitality &amp; Food</span>
     </div>
@@ -1310,13 +1331,11 @@
         const stripWidth = strip.scrollWidth;
         const viewportWidth = window.innerWidth;
         const scrollDistance = stripWidth - viewportWidth;
+        const scrollRange = sectionHeight - window.innerHeight;
 
-        // Progress 0 to 1 through the sticky scroll range
-        const progress = Math.max(0, Math.min(1,
-          -rect.top / (sectionHeight - window.innerHeight)
-        ));
-
-        strip.style.transform = 'translateX(-' + (progress * scrollDistance) + 'px)';
+        const progress = Math.max(0, Math.min(1, -rect.top / scrollRange));
+        const translateX = progress * scrollDistance;
+        strip.style.transform = 'translateY(-50%) translateX(-' + translateX + 'px)';
       }
 
       window.addEventListener('scroll', update, { passive: true });
