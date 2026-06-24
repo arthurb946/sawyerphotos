@@ -1452,6 +1452,53 @@
         btn.setAttribute('aria-label', 'Submitted, thank you!');
       });
     })();
+    // ── Marquee ────────────────────────────────────────────
+    (function () {
+      const track = document.getElementById('marqueeTrack');
+      if (!track) return;
+
+      const original = track.innerHTML;
+      // 8 copies guarantees overflow on any screen
+      track.innerHTML = original + original + original + original + original + original + original + original;
+
+      let x = 0;
+      const speed = 0.5;
+      let paused = false;
+      let singleWidth = 0;
+
+      track.parentElement.addEventListener('mouseenter', () => { paused = true; });
+      track.parentElement.addEventListener('mouseleave', () => { paused = false; });
+
+      function measure() {
+        // singleWidth = 1/8 of total track width
+        singleWidth = track.scrollWidth / 8;
+      }
+
+      function tick() {
+        if (!paused && singleWidth > 0) {
+          x -= speed;
+          if (x <= -singleWidth) x = 0;
+          track.style.transform = 'translateX(' + x + 'px)';
+        }
+        requestAnimationFrame(tick);
+      }
+
+      // Wait for fonts before measuring
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () {
+          measure();
+          tick();
+        });
+      } else {
+        window.addEventListener('load', function () {
+          measure();
+          tick();
+        });
+      }
+
+      window.addEventListener('resize', measure);
+    })();
+
     // ── Smooth scroll ──────────────────────────────────────
     (function () {
       let current = window.scrollY;
