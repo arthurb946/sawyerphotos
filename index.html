@@ -130,12 +130,14 @@
       top: 0;
       left: 0;
       right: 0;
+      width: 100%;
       z-index: 100;
       padding: 28px 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       transition: background 0.4s ease, padding 0.4s ease, backdrop-filter 0.4s ease;
+      box-sizing: border-box;
     }
 
     nav.scrolled {
@@ -344,19 +346,27 @@
       align-items: center;
     }
 
-    /* Horizontal scroll strip */
+    /* Horizontal scroll — scroll-driven */
+    .showcase {
+      position: relative;
+    }
+
+    .showcase__sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
     .showcase__strip {
       display: flex;
       gap: 3px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      cursor: grab;
-      user-select: none;
+      will-change: transform;
     }
 
     .showcase__strip::-webkit-scrollbar { display: none; }
-    .showcase__strip.grabbing { cursor: grabbing; }
 
     .showcase__item {
       flex: 0 0 auto;
@@ -364,15 +374,15 @@
       position: relative;
     }
 
-    .showcase__item:nth-child(1) { width: 520px; height: 680px; }
-    .showcase__item:nth-child(2) { width: 360px; height: 680px; }
-    .showcase__item:nth-child(3) { width: 460px; height: 680px; }
-    .showcase__item:nth-child(4) { width: 340px; height: 680px; }
-    .showcase__item:nth-child(5) { width: 520px; height: 680px; }
-    .showcase__item:nth-child(6) { width: 380px; height: 680px; }
-    .showcase__item:nth-child(7) { width: 440px; height: 680px; }
-    .showcase__item:nth-child(8) { width: 360px; height: 680px; }
-    .showcase__item:nth-child(9) { width: 500px; height: 680px; }
+    .showcase__item:nth-child(1) { width: 520px; height: 80vh; }
+    .showcase__item:nth-child(2) { width: 360px; height: 80vh; }
+    .showcase__item:nth-child(3) { width: 460px; height: 80vh; }
+    .showcase__item:nth-child(4) { width: 340px; height: 80vh; }
+    .showcase__item:nth-child(5) { width: 520px; height: 80vh; }
+    .showcase__item:nth-child(6) { width: 380px; height: 80vh; }
+    .showcase__item:nth-child(7) { width: 440px; height: 80vh; }
+    .showcase__item:nth-child(8) { width: 360px; height: 80vh; }
+    .showcase__item:nth-child(9) { width: 500px; height: 80vh; }
 
     .showcase__item img {
       width: 100%;
@@ -1035,41 +1045,42 @@
   </section>
 
   <!-- ─── Photo Showcase ────────────────────────────── -->
-  <section class="showcase" id="work" aria-label="Portfolio">
-    <div class="showcase__label reveal">
+  <section class="showcase" id="work" aria-label="Portfolio" style="height: 400vh;">
+    <div class="showcase__label reveal" style="position: sticky; top: 0; z-index: 2; padding-top: 80px; padding-bottom: 0; background: var(--bg);">
       <h2>Selected Work</h2>
       <span>Hospitality &amp; Food</span>
     </div>
-    <div class="showcase__strip" id="showcaseStrip" aria-label="Photo gallery — drag to scroll">
-      <div class="showcase__item">
-        <img src="restaurant-interior.jpg" alt="Restaurant interior, warm ambient lighting" loading="lazy" />
-      </div>
-      <div class="showcase__item">
-        <img src="beef-tartare.jpeg" alt="Beef tartare with menu, 24 Chapel Street" loading="lazy" />
-      </div>
-      <div class="showcase__item">
-        <img src="wine.webp" alt="Biferno Rosso wine and glass, candlelit table" loading="lazy" />
-      </div>
-      <div class="showcase__item">
-        <img src="tomato-christmas.jpeg" alt="Scallop dish with festive bokeh background" loading="lazy" />
-      </div>
-      <div class="showcase__item">
-        <img src="lamb-christmas.jpeg" alt="Roast lamb with festive bokeh background" loading="lazy" />
-      </div>
-      <div class="showcase__item">
-        <img src="coffee-bar.jpg" alt="Coffee and tea retail display, cafe interior" loading="lazy" />
-      </div>
-      <div class="showcase__item">
-        <img src="full-english.jpeg" alt="Full English breakfast, cafe plating" loading="lazy" />
-      </div>
-      <div class="showcase__item">
-        <img src="hero.webp" alt="Hospitality venue exterior" loading="lazy" />
-      </div>
-      <div class="showcase__item">
-        <img src="beef-tartare.jpeg" alt="Menu and marble table detail" loading="lazy" />
+    <div class="showcase__sticky">
+      <div class="showcase__strip" id="showcaseStrip" aria-label="Photo gallery">
+        <div class="showcase__item">
+          <img src="restaurant-interior.jpg" alt="Restaurant interior, warm ambient lighting" loading="lazy" />
+        </div>
+        <div class="showcase__item">
+          <img src="beef-tartare.jpeg" alt="Beef tartare with menu, 24 Chapel Street" loading="lazy" />
+        </div>
+        <div class="showcase__item">
+          <img src="wine.webp" alt="Biferno Rosso wine and glass, candlelit table" loading="lazy" />
+        </div>
+        <div class="showcase__item">
+          <img src="tomato-christmas.jpeg" alt="Scallop dish with festive bokeh background" loading="lazy" />
+        </div>
+        <div class="showcase__item">
+          <img src="lamb-christmas.jpeg" alt="Roast lamb with festive bokeh background" loading="lazy" />
+        </div>
+        <div class="showcase__item">
+          <img src="coffee-bar.jpg" alt="Coffee and tea retail display, cafe interior" loading="lazy" />
+        </div>
+        <div class="showcase__item">
+          <img src="full-english.jpeg" alt="Full English breakfast, cafe plating" loading="lazy" />
+        </div>
+        <div class="showcase__item">
+          <img src="hero.webp" alt="Hospitality venue exterior" loading="lazy" />
+        </div>
+        <div class="showcase__item">
+          <img src="beef-tartare.jpeg" alt="Menu and marble table detail" loading="lazy" />
+        </div>
       </div>
     </div>
-    <p class="showcase__hint">Drag to explore</p>
   </section>
 
   <!-- ─── About ─────────────────────────────────────── -->
@@ -1288,25 +1299,29 @@
       document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     })();
 
-    // Drag-to-scroll showcase strip
+    // Scroll-driven horizontal gallery
     (function () {
+      const section = document.getElementById('work');
       const strip = document.getElementById('showcaseStrip');
-      let isDown = false, startX, scrollLeft;
 
-      strip.addEventListener('mousedown', e => {
-        isDown = true;
-        strip.classList.add('grabbing');
-        startX = e.pageX - strip.offsetLeft;
-        scrollLeft = strip.scrollLeft;
-      });
-      strip.addEventListener('mouseleave', () => { isDown = false; strip.classList.remove('grabbing'); });
-      strip.addEventListener('mouseup', () => { isDown = false; strip.classList.remove('grabbing'); });
-      strip.addEventListener('mousemove', e => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - strip.offsetLeft;
-        strip.scrollLeft = scrollLeft - (x - startX) * 1.4;
-      });
+      function update() {
+        const rect = section.getBoundingClientRect();
+        const sectionHeight = section.offsetHeight;
+        const stripWidth = strip.scrollWidth;
+        const viewportWidth = window.innerWidth;
+        const scrollDistance = stripWidth - viewportWidth;
+
+        // Progress 0 to 1 through the sticky scroll range
+        const progress = Math.max(0, Math.min(1,
+          -rect.top / (sectionHeight - window.innerHeight)
+        ));
+
+        strip.style.transform = 'translateX(-' + (progress * scrollDistance) + 'px)';
+      }
+
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update, { passive: true });
+      update();
     })();
 
     // FAQ accordion
