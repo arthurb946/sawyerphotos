@@ -936,6 +936,92 @@
 
     .mobile-menu__credit a { color: var(--accent); }
 
+    /* ─── Marquee ────────────────────────────────────────── */
+    .marquee {
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+      background: var(--bg);
+    }
+
+    .marquee__track {
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      white-space: nowrap;
+      animation: marqueeScroll 22s linear infinite;
+      width: max-content;
+    }
+
+    .marquee__track span {
+      font-family: var(--font-display);
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .marquee__dot {
+      color: var(--accent) !important;
+      font-size: 1.2rem !important;
+    }
+
+    @keyframes marqueeScroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .marquee:hover .marquee__track { animation-play-state: paused; }
+
+    /* ─── Text reveal ────────────────────────────────────── */
+    .reveal-text {
+      overflow: hidden;
+      display: block;
+    }
+
+    .reveal-text__inner {
+      display: block;
+      transform: translateY(100%);
+      transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-text.visible .reveal-text__inner {
+      transform: translateY(0);
+    }
+
+    /* ─── Cursor ─────────────────────────────────────────── */
+    .cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 1px;
+      height: 40px;
+      background: var(--accent);
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0;
+      transform-origin: center;
+      transition: opacity 0.3s ease, height 0.3s ease, background 0.3s ease;
+      mix-blend-mode: difference;
+    }
+
+    .cursor.visible { opacity: 1; }
+    .cursor.hovering { height: 24px; background: #fff; }
+
+    body:not(:hover) .cursor { opacity: 0; }
+
+    /* ─── Image tilt ─────────────────────────────────────── */
+    .tilt {
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease;
+      will-change: transform;
+    }
+
+    /* ─── Smooth scroll ──────────────────────────────────── */
+    html { scroll-behavior: auto; }
+
     /* ─── Reveal animations ─────────────────────────────── */
     .reveal {
       opacity: 0;
@@ -1113,7 +1199,7 @@
 
   <!-- ─── About ─────────────────────────────────────── -->
   <section class="about" id="about" aria-label="About Jay">
-    <div class="about__image-wrap reveal">
+    <div class="about__image-wrap reveal tilt">
       <img
         src="jay-headshot.jpeg"
         alt="Jacob Sawyer, commercial photographer"
@@ -1230,6 +1316,32 @@
     </div>
   </section>
 
+  <!-- ─── Marquee ────────────────────────────────────── -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track" id="marqueeTrack">
+      <span>Hospitality Photography</span>
+      <span class="marquee__dot">·</span>
+      <span>North West England</span>
+      <span class="marquee__dot">·</span>
+      <span>Sawyer & Co.</span>
+      <span class="marquee__dot">·</span>
+      <span>Food &amp; Interiors</span>
+      <span class="marquee__dot">·</span>
+      <span>Brand Storytelling</span>
+      <span class="marquee__dot">·</span>
+      <span>Hospitality Photography</span>
+      <span class="marquee__dot">·</span>
+      <span>North West England</span>
+      <span class="marquee__dot">·</span>
+      <span>Sawyer & Co.</span>
+      <span class="marquee__dot">·</span>
+      <span>Food &amp; Interiors</span>
+      <span class="marquee__dot">·</span>
+      <span>Brand Storytelling</span>
+      <span class="marquee__dot">·</span>
+    </div>
+  </div>
+
   <!-- ─── Footer ───────────────────────────────────── -->
   <footer>
     <span class="footer__logo">Sawyer & Co.</span>
@@ -1238,6 +1350,9 @@
       <a href="privacy.html" class="footer__privacy">Privacy</a>
     </div>
   </footer>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
 
   <!-- ─── Scripts ──────────────────────────────────── -->
   <script>
@@ -1385,6 +1500,113 @@
         btn.setAttribute('aria-label', 'Submitted, thank you!');
       });
     })();
+    // ── Smooth scroll ──────────────────────────────────────
+    (function () {
+      let current = window.scrollY;
+      let target  = window.scrollY;
+      let ease    = 0.1;
+      let running = false;
+
+      function lerp(a, b, t) { return a + (b - a) * t; }
+
+      function tick() {
+        target = window.scrollY;
+        current = lerp(current, target, ease);
+        if (Math.abs(current - target) > 0.5) {
+          requestAnimationFrame(tick);
+        } else {
+          current = target;
+          running = false;
+        }
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!running) { running = true; requestAnimationFrame(tick); }
+      }, { passive: true });
+    })();
+
+    // ── Cursor line ────────────────────────────────────────
+    (function () {
+      const cursor = document.getElementById('cursor');
+      if (!cursor || window.matchMedia('(pointer: coarse)').matches) return;
+
+      let mx = -100, my = -100;
+      let cx = -100, cy = -100;
+
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX;
+        my = e.clientY;
+        cursor.classList.add('visible');
+      });
+
+      document.addEventListener('mouseleave', () => {
+        cursor.classList.remove('visible');
+      });
+
+      const hoverEls = document.querySelectorAll('a, button, .showcase__item, .tilt');
+      hoverEls.forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+      });
+
+      function animateCursor() {
+        cx += (mx - cx) * 0.12;
+        cy += (my - cy) * 0.12;
+        cursor.style.transform = 'translate(' + (cx - 0.5) + 'px, ' + (cy - 20) + 'px)';
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+    })();
+
+    // ── Text reveal ────────────────────────────────────────
+    (function () {
+      // Wrap each headline in reveal-text structure
+      const targets = document.querySelectorAll('.hero__headline, .about__headline, .contact__headline, .testimonial__quote, .showcase__label h2');
+
+      targets.forEach(el => {
+        const html = el.innerHTML;
+        // Split on <br> to preserve line breaks
+        const lines = html.split(/<br\s*\/?>/i);
+        el.innerHTML = lines.map(line =>
+          '<span class="reveal-text"><span class="reveal-text__inner">' + line + '</span></span>'
+        ).join('<br>');
+      });
+
+      const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            const inners = entry.target.querySelectorAll('.reveal-text__inner');
+            inners.forEach((inner, j) => {
+              inner.parentElement.style.transitionDelay = (j * 80) + 'ms';
+              inner.parentElement.classList.add('visible');
+            });
+            revealObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      targets.forEach(el => revealObs.observe(el));
+    })();
+
+    // ── Image tilt ─────────────────────────────────────────
+    (function () {
+      const tiltEls = document.querySelectorAll('.tilt');
+
+      tiltEls.forEach(el => {
+        el.addEventListener('mousemove', e => {
+          const rect = el.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width  - 0.5;
+          const y = (e.clientY - rect.top)  / rect.height - 0.5;
+          el.style.transform =
+            'perspective(800px) rotateY(' + (x * 8) + 'deg) rotateX(' + (-y * 8) + 'deg) scale(1.02)';
+        });
+
+        el.addEventListener('mouseleave', () => {
+          el.style.transform = 'perspective(800px) rotateY(0deg) rotateX(0deg) scale(1)';
+        });
+      });
+    })();
+
   </script>
 </body>
 </html>
