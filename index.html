@@ -941,31 +941,32 @@
       overflow: hidden;
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      padding: 20px 0;
+      padding: 18px 0;
       background: var(--bg);
     }
 
     .marquee__track {
       display: flex;
       align-items: center;
-      gap: 48px;
+      gap: 32px;
       white-space: nowrap;
-      animation: marqueeScroll 22s linear infinite;
+      animation: marqueeScroll 18s linear infinite;
       width: max-content;
     }
 
     .marquee__track span {
       font-family: var(--font-display);
-      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      font-size: clamp(0.75rem, 1.2vw, 0.95rem);
       font-weight: 400;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
       color: var(--text-muted);
       text-transform: uppercase;
     }
 
     .marquee__dot {
       color: var(--accent) !important;
-      font-size: 1.2rem !important;
+      font-size: 0.8rem !important;
+      letter-spacing: 0 !important;
     }
 
     @keyframes marqueeScroll {
@@ -979,6 +980,7 @@
     .reveal-text {
       overflow: hidden;
       display: block;
+      line-height: 1.1;
     }
 
     .reveal-text__inner {
@@ -990,27 +992,6 @@
     .reveal-text.visible .reveal-text__inner {
       transform: translateY(0);
     }
-
-    /* ─── Cursor ─────────────────────────────────────────── */
-    .cursor {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 1px;
-      height: 40px;
-      background: var(--accent);
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0;
-      transform-origin: center;
-      transition: opacity 0.3s ease, height 0.3s ease, background 0.3s ease;
-      mix-blend-mode: difference;
-    }
-
-    .cursor.visible { opacity: 1; }
-    .cursor.hovering { height: 24px; background: #fff; }
-
-    body:not(:hover) .cursor { opacity: 0; }
 
     /* ─── Image tilt ─────────────────────────────────────── */
     .tilt {
@@ -1319,26 +1300,7 @@
   <!-- ─── Marquee ────────────────────────────────────── -->
   <div class="marquee" aria-hidden="true">
     <div class="marquee__track" id="marqueeTrack">
-      <span>Hospitality Photography</span>
-      <span class="marquee__dot">·</span>
-      <span>North West England</span>
-      <span class="marquee__dot">·</span>
-      <span>Sawyer & Co.</span>
-      <span class="marquee__dot">·</span>
-      <span>Food &amp; Interiors</span>
-      <span class="marquee__dot">·</span>
-      <span>Brand Storytelling</span>
-      <span class="marquee__dot">·</span>
-      <span>Hospitality Photography</span>
-      <span class="marquee__dot">·</span>
-      <span>North West England</span>
-      <span class="marquee__dot">·</span>
-      <span>Sawyer & Co.</span>
-      <span class="marquee__dot">·</span>
-      <span>Food &amp; Interiors</span>
-      <span class="marquee__dot">·</span>
-      <span>Brand Storytelling</span>
-      <span class="marquee__dot">·</span>
+      <span>Hospitality Photography</span><span class="marquee__dot">·</span><span>North West England</span><span class="marquee__dot">·</span><span>Sawyer & Co.</span><span class="marquee__dot">·</span><span>Food &amp; Interiors</span><span class="marquee__dot">·</span><span>Brand Storytelling</span><span class="marquee__dot">·</span><span>Hospitality Photography</span><span class="marquee__dot">·</span><span>North West England</span><span class="marquee__dot">·</span><span>Sawyer & Co.</span><span class="marquee__dot">·</span><span>Food &amp; Interiors</span><span class="marquee__dot">·</span><span>Brand Storytelling</span><span class="marquee__dot">·</span>
     </div>
   </div>
 
@@ -1350,9 +1312,6 @@
       <a href="privacy.html" class="footer__privacy">Privacy</a>
     </div>
   </footer>
-
-  <!-- Cursor -->
-  <div class="cursor" id="cursor" aria-hidden="true"></div>
 
   <!-- ─── Scripts ──────────────────────────────────── -->
   <script>
@@ -1525,67 +1484,27 @@
       }, { passive: true });
     })();
 
-    // ── Cursor line ────────────────────────────────────────
-    (function () {
-      const cursor = document.getElementById('cursor');
-      if (!cursor || window.matchMedia('(pointer: coarse)').matches) return;
-
-      let mx = -100, my = -100;
-      let cx = -100, cy = -100;
-
-      document.addEventListener('mousemove', e => {
-        mx = e.clientX;
-        my = e.clientY;
-        cursor.classList.add('visible');
-      });
-
-      document.addEventListener('mouseleave', () => {
-        cursor.classList.remove('visible');
-      });
-
-      const hoverEls = document.querySelectorAll('a, button, .showcase__item, .tilt');
-      hoverEls.forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
-      });
-
-      function animateCursor() {
-        cx += (mx - cx) * 0.12;
-        cy += (my - cy) * 0.12;
-        cursor.style.transform = 'translate(' + (cx - 0.5) + 'px, ' + (cy - 20) + 'px)';
-        requestAnimationFrame(animateCursor);
-      }
-      animateCursor();
-    })();
-
     // ── Text reveal ────────────────────────────────────────
     (function () {
-      // Wrap each headline in reveal-text structure
-      const targets = document.querySelectorAll('.hero__headline, .about__headline, .contact__headline, .testimonial__quote, .showcase__label h2');
+      const targets = document.querySelectorAll('.hero__headline, .about__headline, .contact__headline, .showcase__label h2');
 
       targets.forEach(el => {
-        const html = el.innerHTML;
-        // Split on <br> to preserve line breaks
-        const lines = html.split(/<br\s*\/?>/i);
-        el.innerHTML = lines.map(line =>
-          '<span class="reveal-text"><span class="reveal-text__inner">' + line + '</span></span>'
+        const lines = el.innerHTML.split(/<br\s*\/?>/i);
+        el.innerHTML = lines.map((line, i) =>
+          '<span class="reveal-text" style="transition-delay:' + (i * 120) + 'ms"><span class="reveal-text__inner">' + line + '</span></span>'
         ).join('<br>');
       });
 
-      const revealObs = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
           if (entry.isIntersecting) {
-            const inners = entry.target.querySelectorAll('.reveal-text__inner');
-            inners.forEach((inner, j) => {
-              inner.parentElement.style.transitionDelay = (j * 80) + 'ms';
-              inner.parentElement.classList.add('visible');
-            });
-            revealObs.unobserve(entry.target);
+            entry.target.querySelectorAll('.reveal-text').forEach(rt => rt.classList.add('visible'));
+            obs.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.2 });
+      }, { threshold: 0.15 });
 
-      targets.forEach(el => revealObs.observe(el));
+      targets.forEach(el => obs.observe(el));
     })();
 
     // ── Image tilt ─────────────────────────────────────────
