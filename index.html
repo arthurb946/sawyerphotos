@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sawyer & Co. Photography</title>
+  <meta name="description" content="Commercial hospitality photographer based in North West England. Food, interiors, and brand storytelling for restaurants, cafes and hotels." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Poppins:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Reset & Variables ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #0c0b09;
+      --surface:      #131210;
+      --text:         #f0ece4;
+      --text-muted:   #7a7570;
+      --accent:       #c9a96e;
+      --border:       rgba(255,255,255,0.07);
+      --font-display: 'Archivo Black', sans-serif;
+      --font-body:    'Poppins', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ─── Preloader ─────────────────────────────────────── */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    #preloader.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .preloader__wordmark {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      overflow: hidden;
+    }
+
+    .preloader__wordmark span {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(100%);
+      animation: charRise 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .preloader__sub {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0;
+      animation: fadeIn 0.6s ease 1s forwards;
+    }
+
+    .preloader__sub-two {
+      font-family: var(--font-body);
+      font-size: clamp(0.75rem, 1.5vw, 0.9rem);
+      font-style: italic;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+      opacity: 0;
+      animation: fadeIn 0.6s ease 1.3s forwards;
+    }
+
+    .preloader__bar {
+      width: 120px;
+      height: 1px;
+      background: var(--border);
+      position: relative;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .preloader__bar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: barFill 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+    }
+
+    @keyframes charRise {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    @keyframes barFill {
+      to { transform: scaleX(1); }
+    }
+
+    /* ─── Navigation ────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s ease, padding 0.4s ease, backdrop-filter 0.4s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(12, 11, 9, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav__logo {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      list-style: none;
+    }
+
+    /* Text rotation link */
+    .nav__links a {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: inline-flex;
+      flex-direction: column;
+      overflow: hidden;
+      height: 1.2em;
+      position: relative;
+    }
+
+    .nav__links a .link__default,
+    .nav__links a .link__hover {
+      display: block;
+      line-height: 1.2;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+
+    .nav__links a .link__hover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translateY(100%);
+      color: var(--text);
+    }
+
+    .nav__links a:hover .link__default { transform: translateY(-100%); }
+    .nav__links a:hover .link__hover   { transform: translateY(0); }
+
+    /* Nav CTA button */
+    .nav__cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 9px 22px;
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--accent);
+      border-radius: 3px;
+      transition: background 0.25s ease, transform 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .nav__cta:hover {
+      background: #d4b37a;
+      transform: translateY(-1px);
+    }
+
+    /* ─── Hero ──────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('images/restaurant-interior.jpg');
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.08);
+      animation: kenBurns 14s ease-out forwards;
+      will-change: transform;
+    }
+
+    @keyframes kenBurns {
+      to { transform: scale(1); }
+    }
+
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(12,11,9,0.92) 0%,
+        rgba(12,11,9,0.4) 50%,
+        rgba(12,11,9,0.15) 100%
+      );
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      padding: 0 48px 72px;
+      max-width: 900px;
+    }
+
+    .hero__eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.7s ease 0.2s forwards;
+    }
+
+    .hero__headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 6vw, 5.5rem);
+      font-weight: 400;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.8s ease 0.4s forwards;
+    }
+
+    .hero__headline em {
+      font-style: normal;
+      color: var(--accent);
+    }
+
+    .hero__sub {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin-bottom: 36px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.7s ease 0.65s forwards;
+    }
+
+    .hero__cta {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.7s ease 0.85s forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Photo Showcase ────────────────────────────────── */
+    .showcase {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .showcase__track-wrapper {
+      position: relative;
+    }
+
+    .showcase__label {
+      padding: 80px 48px 40px;
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+    }
+
+    .showcase__label h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+    }
+
+    .showcase__label span {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* Nav CTA li fix */
+    .nav__links li:last-child {
+      display: flex;
+      align-items: center;
+    }
+
+    /* Horizontal scroll strip */
+    .showcase__strip {
+      display: flex;
+      gap: 3px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .showcase__strip::-webkit-scrollbar { display: none; }
+    .showcase__strip.grabbing { cursor: grabbing; }
+
+    .showcase__item {
+      flex: 0 0 auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .showcase__item:nth-child(1) { width: 520px; height: 680px; }
+    .showcase__item:nth-child(2) { width: 360px; height: 680px; }
+    .showcase__item:nth-child(3) { width: 460px; height: 680px; }
+    .showcase__item:nth-child(4) { width: 340px; height: 680px; }
+    .showcase__item:nth-child(5) { width: 520px; height: 680px; }
+    .showcase__item:nth-child(6) { width: 380px; height: 680px; }
+    .showcase__item:nth-child(7) { width: 440px; height: 680px; }
+    .showcase__item:nth-child(8) { width: 360px; height: 680px; }
+    .showcase__item:nth-child(9) { width: 500px; height: 680px; }
+
+    .showcase__item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .showcase__item:hover img { transform: scale(1.04); }
+
+    .showcase__hint {
+      padding: 20px 48px;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .showcase__hint::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--text-muted);
+    }
+
+    /* ─── About ─────────────────────────────────────────── */
+    .about {
+      padding: 120px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .about__image-wrap {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+    }
+
+    .about__image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 8s ease;
+    }
+
+    .about__image-wrap:hover img { transform: scale(1.04); }
+
+    .about__content { padding: 24px 0; }
+
+    .about__eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    .about__headline {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 32px;
+    }
+
+    .about__headline em { font-style: normal; color: var(--accent); }
+
+    .about__body {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      max-width: 480px;
+    }
+
+    .about__body p + p { margin-top: 20px; }
+
+    /* ─── Testimonial ───────────────────────────────────── */
+    .testimonial {
+      padding: 120px 48px;
+      border-top: 1px solid var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .testimonial__eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 56px;
+    }
+
+    .testimonial__quote {
+      font-family: var(--font-body);
+      font-size: clamp(1.1rem, 2vw, 1.6rem);
+      font-weight: 300;
+      line-height: 1.7;
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 48px;
+    }
+
+    .testimonial__divider {
+      width: 48px;
+      height: 1px;
+      background: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .testimonial__attribution {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .testimonial__name {
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .testimonial__location {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── FAQ ───────────────────────────────────────────── */
+    .faq {
+      padding: 80px 48px 120px;
+      border-top: 1px solid var(--border);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .faq__eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 56px;
+    }
+
+    .faq__item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq__question {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-family: var(--font-display);
+      font-size: clamp(0.9rem, 1.2vw, 1.05rem);
+      font-weight: 400;
+      text-align: left;
+      padding: 28px 0;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      transition: color 0.2s ease;
+    }
+
+    .faq__question:hover { color: var(--accent); }
+
+    .faq__icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      position: relative;
+    }
+
+    .faq__icon::before,
+    .faq__icon::after {
+      content: '';
+      position: absolute;
+      background: currentColor;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .faq__icon::before { width: 100%; height: 1px; top: 50%; left: 0; transform: translateY(-50%); }
+    .faq__icon::after  { width: 1px; height: 100%; top: 0; left: 50%; transform: translateX(-50%); }
+
+    .faq__item.open .faq__icon::after { transform: translateX(-50%) rotate(90deg); opacity: 0; }
+
+    .faq__answer {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .faq__item.open .faq__answer { max-height: 300px; }
+
+    .faq__answer p {
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+      padding-bottom: 28px;
+    }
+
+    /* ─── Contact ───────────────────────────────────────── */
+    .contact {
+      padding: 120px 48px;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    .contact__left {}
+
+    .contact__eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 28px;
+    }
+
+    .contact__headline {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 400;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 32px;
+    }
+
+    .contact__headline em { font-style: normal; color: var(--accent); }
+
+    .contact__detail {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      transition: color 0.2s ease;
+    }
+
+    .contact__detail:hover { color: var(--text); }
+
+    .contact__detail svg {
+      width: 16px;
+      height: 16px;
+      opacity: 0.5;
+      flex-shrink: 0;
+    }
+
+    .contact__form { display: flex; flex-direction: column; gap: 16px; }
+
+    .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .form__field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form__field label {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .form__field input,
+    .form__field textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 14px 16px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      transition: border-color 0.2s ease, background 0.2s ease;
+      outline: none;
+      resize: none;
+    }
+
+    .form__field input:focus,
+    .form__field textarea:focus {
+      border-color: var(--accent);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .form__field textarea { height: 140px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 36px;
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      border: none;
+    }
+
+    .btn--primary {
+      background: var(--accent);
+      color: var(--bg);
+    }
+
+    .btn--primary:hover {
+      background: #d4b37a;
+      transform: translateY(-2px);
+    }
+
+    /* Submit state */
+    .btn {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn__text {
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+    }
+
+    .btn__text--submitted {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translateY(100%);
+      opacity: 0;
+    }
+
+    .btn.submitted {
+      background: #2a6b4a;
+      pointer-events: none;
+      transform: none;
+    }
+
+    .btn.submitted .btn__text--default {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+
+    .btn.submitted .btn__text--submitted {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ─── Footer ────────────────────────────────────────── */
+    footer {
+      padding: 32px 48px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    footer .footer__logo {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    footer .footer__credit {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    footer .footer__credit a {
+      color: var(--accent);
+      transition: opacity 0.2s;
+    }
+
+    footer .footer__credit a:hover { opacity: 0.7; }
+
+    footer .footer__right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    footer .footer__privacy {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    footer .footer__privacy:hover { color: var(--text); }
+
+    /* ─── Burger button ─────────────────────────────────── */
+    .nav__burger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      width: 32px;
+      height: 32px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      z-index: 200;
+    }
+
+    .nav__burger span {
+      display: block;
+      width: 100%;
+      height: 1.5px;
+      background: var(--text);
+      transform-origin: center;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.2s ease,
+                  width 0.3s ease;
+    }
+
+    .nav__burger.open span:first-child {
+      transform: translateY(3.75px) rotate(45deg);
+    }
+
+    .nav__burger.open span:last-child {
+      transform: translateY(-3.75px) rotate(-45deg);
+    }
+
+    /* ─── Fullscreen mobile menu ────────────────────────── */
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 150;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0.45s ease;
+    }
+
+    .mobile-menu.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-menu__inner {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      padding: 120px 32px 48px;
+    }
+
+    .mobile-menu__links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .mobile-menu__link {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 14vw, 5.5rem);
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      display: block;
+      line-height: 1.1;
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                  color 0.2s ease;
+    }
+
+    .mobile-menu__link:hover { color: var(--accent); }
+
+    .mobile-menu.open .mobile-menu__link:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+    .mobile-menu.open .mobile-menu__link:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.18s; }
+    .mobile-menu.open .mobile-menu__link:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.26s; }
+
+    .mobile-menu__footer {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border-top: 1px solid var(--border);
+      padding-top: 32px;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease 0.35s, transform 0.5s ease 0.35s;
+    }
+
+    .mobile-menu.open .mobile-menu__footer {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .mobile-menu__detail {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      transition: color 0.2s ease;
+    }
+
+    .mobile-menu__detail:hover { color: var(--text); }
+
+    .mobile-menu__credit {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .mobile-menu__credit a { color: var(--accent); }
+
+    /* ─── Reveal animations ─────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── Reduced motion ────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ─── Mobile ────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      nav.scrolled { padding: 16px 24px; }
+      .nav__links { display: none; }
+      .nav__burger { display: flex; }
+
+      .hero__content { padding: 0 24px 56px; }
+
+      .showcase__label { padding: 60px 24px 28px; }
+      .showcase__hint { padding: 16px 24px; }
+
+      .showcase__item { height: 480px; }
+      .showcase__item:nth-child(n) { width: 280px; }
+
+      .about {
+        grid-template-columns: 1fr;
+        padding: 80px 24px;
+        gap: 48px;
+      }
+
+      .testimonial { padding: 80px 24px; }
+      .faq { padding: 60px 24px 80px; }
+
+      .contact {
+        grid-template-columns: 1fr;
+        padding: 80px 24px;
+        gap: 48px;
+      }
+
+      .form__row { grid-template-columns: 1fr; }
+
+      footer {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+        padding: 28px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Preloader ─────────────────────────────────── -->
+  <div id="preloader" role="status" aria-label="Loading">
+    <div class="preloader__wordmark" aria-hidden="true">
+      <!-- Letters injected by JS -->
+    </div>
+    <div class="preloader__bar"></div>
+    <div class="preloader__sub">Hospitality Photography</div>
+    <div class="preloader__sub-two">North West England</div>
+  </div>
+
+  <!-- Navigation -->
+  <nav id="nav" aria-label="Main navigation">
+    <a href="#" class="nav__logo">Sawyer & Co.</a>
+    <ul class="nav__links">
+      <li>
+        <a href="#work">
+          <span class="link__default" aria-hidden="true">Work</span>
+          <span class="link__hover">Work</span>
+        </a>
+      </li>
+      <li>
+        <a href="#about">
+          <span class="link__default" aria-hidden="true">About</span>
+          <span class="link__hover">About</span>
+        </a>
+      </li>
+      <li>
+        <a href="#contact">
+          <span class="link__default" aria-hidden="true">Contact</span>
+          <span class="link__hover">Contact</span>
+        </a>
+      </li>
+    </ul>
+    <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- Fullscreen mobile menu -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <div class="mobile-menu__inner">
+      <ul class="mobile-menu__links">
+        <li><a href="#work" class="mobile-menu__link">Work</a></li>
+        <li><a href="#about" class="mobile-menu__link">About</a></li>
+        <li><a href="#contact" class="mobile-menu__link">Contact</a></li>
+      </ul>
+      <div class="mobile-menu__footer">
+        <a href="mailto:hello@sawyerandco.com" class="mobile-menu__detail">hello@sawyerandco.com</a>
+        <a href="https://www.instagram.com/sawyerandco_/" target="_blank" rel="noopener" class="mobile-menu__detail">@sawyerandco_</a>
+        <p class="mobile-menu__credit">Website by <a href="https://wearekern.co.uk" target="_blank" rel="noopener">wearekern.</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Hero ─────────────────────────────────────── -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero__bg"></div>
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <p class="hero__eyebrow">Hospitality Photography</p>
+      <h1 class="hero__headline">Photography for restaurants<br><em>worth remembering</em></h1>
+      <p class="hero__sub">Striking imagery for restaurants, cafes, bars and hotels across the North West — content that makes guests book, visit and return.</p>
+      <a href="#contact" class="btn btn--primary hero__cta">Book a shoot</a>
+    </div>
+  </section>
+
+  <!-- ─── Photo Showcase ────────────────────────────── -->
+  <section class="showcase" id="work" aria-label="Portfolio">
+    <div class="showcase__label reveal">
+      <h2>Selected Work</h2>
+      <span>Hospitality &amp; Food</span>
+    </div>
+    <div class="showcase__strip" id="showcaseStrip" aria-label="Photo gallery — drag to scroll">
+      <div class="showcase__item">
+        <img src="images/restaurant-interior.jpg" alt="Restaurant interior, warm ambient lighting" loading="lazy" />
+      </div>
+      <div class="showcase__item">
+        <img src="images/beef-tartare.jpeg" alt="Beef tartare with menu, 24 Chapel Street" loading="lazy" />
+      </div>
+      <div class="showcase__item">
+        <img src="images/salmon-gravlax.jpeg" alt="Salmon gravlax, styled overhead" loading="lazy" />
+      </div>
+      <div class="showcase__item">
+        <img src="images/wine.webp" alt="Biferno Rosso wine and glass, candlelit table" loading="lazy" />
+      </div>
+      <div class="showcase__item">
+        <img src="images/tomato-christmas.jpeg" alt="Scallop dish with festive bokeh background" loading="lazy" />
+      </div>
+      <div class="showcase__item">
+        <img src="images/espresso-machine.jpg" alt="Espresso extraction, La Marzocco machine" loading="lazy" />
+      </div>
+      <div class="showcase__item">
+        <img src="images/coffee-bar.jpg" alt="Coffee and tea retail display, cafe interior" loading="lazy" />
+      </div>
+      <div class="showcase__item">
+        <img src="images/sandwich.jpeg" alt="Ham sandwich with salad, cafe lunch" loading="lazy" />
+      </div>
+      <div class="showcase__item">
+        <img src="images/lamb-christmas.jpeg" alt="Roast lamb with festive bokeh background" loading="lazy" />
+      </div>
+    </div>
+    <p class="showcase__hint">Drag to explore</p>
+  </section>
+
+  <!-- ─── About ─────────────────────────────────────── -->
+  <section class="about" id="about" aria-label="About Jay">
+    <div class="about__image-wrap reveal">
+      <img
+        src="images/hero.webp"
+        alt="Jacob Sawyer, commercial photographer"
+        loading="lazy"
+      />
+    </div>
+    <div class="about__content reveal">
+      <p class="about__eyebrow">About</p>
+      <h2 class="about__headline">Commercial photography<br>that <em>converts</em></h2>
+      <div class="about__body">
+        <p>Restaurants have one shot at making someone book a table. I'm Jacob — I make sure the photos do it.</p>
+        <p>Based in Merseyside, I shoot food, interiors and the atmosphere that menus can't communicate — for restaurants, cafes, bars and hotels across the North West.</p>
+        <p>From beautifully styled menu shots to atmospheric interior photography and brand storytelling, every image is built to make guests want to be there.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Testimonial ───────────────────────────────── -->
+  <section class="testimonial reveal" aria-label="Client testimonial">
+    <p class="testimonial__eyebrow">What clients say</p>
+    <blockquote class="testimonial__quote">
+      "Jacob has completed a couple of fantastic photography jobs for us — capturing brilliant shots of our refurbed space and decor, as well as food and drink pictures. He is an absolute pleasure to work with, completing work exactly as requested and ensuring the highest standards. The value for money, professionalism and quality of work were second to none."
+    </blockquote>
+    <div class="testimonial__divider"></div>
+    <div class="testimonial__attribution">
+      <span class="testimonial__name">The Cricketers</span>
+      <span class="testimonial__location">Ormskirk</span>
+    </div>
+  </section>
+
+  <!-- ─── FAQ ──────────────────────────────────────── -->
+  <section class="faq reveal" aria-label="Frequently asked questions">
+    <p class="faq__eyebrow">Questions</p>
+
+    <div class="faq__item">
+      <button class="faq__question" aria-expanded="false">
+        What type of businesses do you work with?
+        <span class="faq__icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq__answer">
+        <p>Hotels, boutique accommodations, restaurants, cafes and bars. If you're not sure whether I'm the right fit, send me a message and we'll talk it through.</p>
+      </div>
+    </div>
+
+    <div class="faq__item">
+      <button class="faq__question" aria-expanded="false">
+        Why invest in professional hospitality photography?
+        <span class="faq__icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq__answer">
+        <p>High-quality imagery directly affects bookings. It shapes how guests perceive your venue before they've walked through the door — and it's the content that performs best on social, Google and your website.</p>
+      </div>
+    </div>
+
+    <div class="faq__item">
+      <button class="faq__question" aria-expanded="false">
+        Do you photograph food and drinks?
+        <span class="faq__icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq__answer">
+        <p>100%. Styled food and beverage photography is a core part of what I do — it complements venue photography and gives your menus, social channels and website something to work with.</p>
+      </div>
+    </div>
+
+    <div class="faq__item">
+      <button class="faq__question" aria-expanded="false">
+        Where are you based?
+        <span class="faq__icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq__answer">
+        <p>Based in Merseyside, North West England. For shoots outside this area, get in touch and I'll come back with a quote.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ─── Contact ───────────────────────────────────── -->
+  <section class="contact" id="contact" aria-label="Contact">
+    <div class="contact__left reveal">
+      <p class="contact__eyebrow">Get in touch</p>
+      <h2 class="contact__headline">Let's make something<br><em>worth seeing</em></h2>
+      <a href="mailto:hello@sawyerandco.com" class="contact__detail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        hello@sawyerandco.com
+      </a>
+      <a href="https://www.instagram.com/sawyerandco_/" target="_blank" rel="noopener" class="contact__detail">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+        @sawyerandco_
+      </a>
+    </div>
+    <div class="contact__form reveal">
+      <div class="form__row">
+        <div class="form__field">
+          <label for="fname">First name</label>
+          <input type="text" id="fname" name="fname" placeholder="John" autocomplete="given-name" />
+        </div>
+        <div class="form__field">
+          <label for="lname">Last name</label>
+          <input type="text" id="lname" name="lname" placeholder="Smith" autocomplete="family-name" />
+        </div>
+      </div>
+      <div class="form__field">
+        <label for="email">Email <span aria-hidden="true">*</span></label>
+        <input type="email" id="email" name="email" placeholder="you@email.com" required autocomplete="email" />
+      </div>
+      <div class="form__field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Tell me a little about what you're making..."></textarea>
+      </div>
+      <button type="button" class="btn btn--primary" id="submitBtn">
+        <span class="btn__text btn__text--default">Send message</span>
+        <span class="btn__text btn__text--submitted" aria-hidden="true">Submitted, thank you!</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ─── Footer ───────────────────────────────────── -->
+  <footer>
+    <span class="footer__logo">Sawyer & Co.</span>
+    <p class="footer__credit">Website by <a href="https://wearekern.co.uk" target="_blank" rel="noopener">wearekern.</a></p>
+    <div class="footer__right">
+      <a href="#" class="footer__privacy">Privacy</a>
+    </div>
+  </footer>
+
+  <!-- ─── Scripts ──────────────────────────────────── -->
+  <script>
+    // Preloader
+    (function () {
+      const wordmark = document.querySelector('.preloader__wordmark');
+      const text = 'SAWYER & Co.';
+      text.split('').forEach((char, i) => {
+        const span = document.createElement('span');
+        span.textContent = char === '\u0020' ? '\u00A0' : char;
+        span.style.animationDelay = i * 55 + 'ms';
+        wordmark.appendChild(span);
+      });
+
+      function dismiss() {
+        var el = document.getElementById('preloader');
+        if (el) el.classList.add('hidden');
+      }
+
+      // Dismiss after 2.2s regardless
+      setTimeout(dismiss, 2200);
+
+      // Also dismiss on load if that fires first
+      window.addEventListener('load', function() {
+        setTimeout(dismiss, 400);
+      });
+    })();
+
+    // Burger menu
+    (function () {
+      const burger = document.getElementById('burger');
+      const menu = document.getElementById('mobileMenu');
+      const menuLinks = menu.querySelectorAll('.mobile-menu__link');
+
+      function openMenu() {
+        burger.classList.add('open');
+        burger.setAttribute('aria-expanded', 'true');
+        burger.setAttribute('aria-label', 'Close menu');
+        menu.classList.add('open');
+        menu.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeMenu() {
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+        burger.setAttribute('aria-label', 'Open menu');
+        menu.classList.remove('open');
+        menu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      burger.addEventListener('click', () => {
+        burger.classList.contains('open') ? closeMenu() : openMenu();
+      });
+
+      // Close on link click
+      menuLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+      });
+
+      // Close on Escape
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeMenu();
+      });
+    })();
+
+    // Nav scroll state
+    (function () {
+      const nav = document.getElementById('nav');
+      const onScroll = () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+    })();
+
+    // Intersection Observer reveal
+    (function () {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(el => {
+          if (el.isIntersecting) {
+            el.target.classList.add('visible');
+            observer.unobserve(el.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    })();
+
+    // Drag-to-scroll showcase strip
+    (function () {
+      const strip = document.getElementById('showcaseStrip');
+      let isDown = false, startX, scrollLeft;
+
+      strip.addEventListener('mousedown', e => {
+        isDown = true;
+        strip.classList.add('grabbing');
+        startX = e.pageX - strip.offsetLeft;
+        scrollLeft = strip.scrollLeft;
+      });
+      strip.addEventListener('mouseleave', () => { isDown = false; strip.classList.remove('grabbing'); });
+      strip.addEventListener('mouseup', () => { isDown = false; strip.classList.remove('grabbing'); });
+      strip.addEventListener('mousemove', e => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - strip.offsetLeft;
+        strip.scrollLeft = scrollLeft - (x - startX) * 1.4;
+      });
+    })();
+
+    // FAQ accordion
+    (function () {
+      document.querySelectorAll('.faq__question').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.faq__item');
+          const isOpen = item.classList.contains('open');
+          document.querySelectorAll('.faq__item.open').forEach(i => {
+            i.classList.remove('open');
+            i.querySelector('.faq__question').setAttribute('aria-expanded', 'false');
+          });
+          if (!isOpen) {
+            item.classList.add('open');
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+    })();
+
+    // Form submit
+    (function () {
+      const btn = document.getElementById('submitBtn');
+      const email = document.getElementById('email');
+
+      btn.addEventListener('click', () => {
+        if (!email.value || !email.value.includes('@')) {
+          email.focus();
+          email.style.borderColor = '#c0392b';
+          setTimeout(() => { email.style.borderColor = ''; }, 2000);
+          return;
+        }
+        btn.classList.add('submitted');
+        btn.setAttribute('aria-label', 'Submitted, thank you!');
+      });
+    })();
+  </script>
+</body>
+</html>
