@@ -936,6 +936,150 @@
 
     .mobile-menu__credit a { color: var(--accent); }
 
+    /* ─── Testimonial flow ──────────────────────────────── */
+    .testimonials-flow {
+      padding: 120px 0;
+      border-top: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .testimonials-flow__header {
+      padding: 0 48px;
+      margin-bottom: 56px;
+    }
+
+    .testimonials-flow__eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .tflow__row {
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .tflow__track {
+      display: flex;
+      gap: 16px;
+      width: max-content;
+    }
+
+    .tflow__card {
+      flex: 0 0 auto;
+      width: 360px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .tflow__card:hover {
+      border-color: rgba(201,169,110,0.3);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .tflow__quote {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .tflow__name {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* ─── How it works ──────────────────────────────────── */
+    .hiw {
+      padding: 120px 48px;
+      border-top: 1px solid var(--border);
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .hiw__header {
+      margin-bottom: 72px;
+    }
+
+    .hiw__eyebrow {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .hiw__headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: 0.01em;
+    }
+
+    .hiw__headline em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hiw__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .hiw__card {
+      padding: 40px 32px;
+      border: 1px solid var(--border);
+      position: relative;
+      transition: background 0.3s ease;
+    }
+
+    .hiw__card:hover { background: rgba(255,255,255,0.02); }
+
+    .hiw__num {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 4rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.05);
+      line-height: 1;
+      margin-bottom: 32px;
+      letter-spacing: -0.02em;
+    }
+
+    .hiw__title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .hiw__body {
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 768px) {
+      .hiw__grid { grid-template-columns: 1fr; }
+      .hiw { padding: 80px 24px; }
+      .testimonials-flow__header { padding: 0 24px; }
+      .tflow__card { width: 280px; }
+    }
+
     /* ─── Marquee ────────────────────────────────────────── */
     .marquee {
       overflow: hidden;
@@ -1191,16 +1335,62 @@
     </div>
   </section>
 
-  <!-- ─── Testimonial ───────────────────────────────── -->
-  <section class="testimonial reveal" aria-label="Client testimonial">
-    <p class="testimonial__eyebrow">What clients say</p>
-    <blockquote class="testimonial__quote">
-      "Jacob has completed a couple of fantastic photography jobs for us — capturing brilliant shots of our refurbed space and decor, as well as food and drink pictures. He is an absolute pleasure to work with, completing work exactly as requested and ensuring the highest standards. The value for money, professionalism and quality of work were second to none."
-    </blockquote>
-    <div class="testimonial__divider"></div>
-    <div class="testimonial__attribution">
-      <span class="testimonial__name">The Cricketers</span>
-      <span class="testimonial__location">Ormskirk</span>
+  <!-- ─── Testimonials ─────────────────────────────────── -->
+  <section class="testimonials-flow" aria-label="Client testimonials">
+    <div class="testimonials-flow__header reveal">
+      <p class="testimonials-flow__eyebrow">What clients say</p>
+    </div>
+
+    <!-- Row 1 — left -->
+    <div class="tflow__row tflow__row--left">
+      <div class="tflow__track" id="tflowTrack1">
+        <div class="tflow__card"><p class="tflow__quote">"Jacob completely transformed how our restaurant looks online. Bookings went up within weeks of updating our photos."</p><span class="tflow__name">The Cricketers — Ormskirk</span></div>
+        <div class="tflow__card"><p class="tflow__quote">"Brilliant photographer — arrived on time, worked quickly and the results were stunning. Our Instagram has never looked better."</p><span class="tflow__name">Café Patron — Liverpool</span></div>
+        <div class="tflow__card"><p class="tflow__quote">"Professional, talented and easy to work with. The food photography was exactly what we needed for our new menu launch."</p><span class="tflow__name">The Harbour Kitchen — Southport</span></div>
+        <div class="tflow__card"><p class="tflow__quote">"We've had so many compliments on our new website imagery. Jacob really understood the atmosphere we wanted to capture."</p><span class="tflow__name">Lune Valley Bistro — Lancaster</span></div>
+        <div class="tflow__card"><p class="tflow__quote">"Incredibly professional from first contact to final delivery. The interior shots made our venue look spectacular."</p><span class="tflow__name">The Merchant Hotel — Chester</span></div>
+      </div>
+    </div>
+
+    <!-- Row 2 — right -->
+    <div class="tflow__row tflow__row--right">
+      <div class="tflow__track" id="tflowTrack2">
+        <div class="tflow__card"><p class="tflow__quote">"Value for money, professionalism and quality were second to none. Would recommend Jacob to any hospitality business."</p><span class="tflow__name">The Cricketers — Ormskirk</span></div>
+        <div class="tflow__card"><p class="tflow__quote">"Our seasonal menu campaign performed three times better than before — the photography made all the difference."</p><span class="tflow__name">Salt & Ember — Manchester</span></div>
+        <div class="tflow__card"><p class="tflow__quote">"Jacob captured our refurbished space perfectly. Guests come in saying it looks exactly as they expected from the photos."</p><span class="tflow__name">The Crown — Ormskirk</span></div>
+        <div class="tflow__card"><p class="tflow__quote">"Fast turnaround, beautiful results. The coffee bar shots have become our most engaged posts on social media."</p><span class="tflow__name">Neighbours Coffee — Liverpool</span></div>
+        <div class="tflow__card"><p class="tflow__quote">"Working with Jacob felt effortless. He knew exactly what angles would work and delivered ahead of schedule."</p><span class="tflow__name">Alderley Arms — Cheshire</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── How It Works ──────────────────────────────────── -->
+  <section class="hiw" aria-label="How it works">
+    <div class="hiw__header reveal">
+      <p class="hiw__eyebrow">The process</p>
+      <h2 class="hiw__headline">From ideas to<br><em>performance</em></h2>
+    </div>
+    <div class="hiw__grid">
+      <div class="hiw__card reveal">
+        <span class="hiw__num">01</span>
+        <h3 class="hiw__title">Discovery</h3>
+        <p class="hiw__body">We talk through your venue, your brand and what you want the photography to achieve — whether that's more bookings, stronger social content or a new menu launch.</p>
+      </div>
+      <div class="hiw__card reveal">
+        <span class="hiw__num">02</span>
+        <h3 class="hiw__title">The Shoot</h3>
+        <p class="hiw__body">I come to your venue and shoot food, interiors and atmosphere — working around your service so disruption is minimal. Every shot is composed with your audience in mind.</p>
+      </div>
+      <div class="hiw__card reveal">
+        <span class="hiw__num">03</span>
+        <h3 class="hiw__title">Editing</h3>
+        <p class="hiw__body">Images are edited to a consistent, cinematic standard — colour-graded to reflect the real feel of your venue. Delivered within 5 working days.</p>
+      </div>
+      <div class="hiw__card reveal">
+        <span class="hiw__num">04</span>
+        <h3 class="hiw__title">Delivery & Results</h3>
+        <p class="hiw__body">You receive a gallery of high-resolution images ready for your website, social media and print — content that works immediately and keeps performing.</p>
+      </div>
     </div>
   </section>
 
@@ -1452,6 +1642,46 @@
         btn.setAttribute('aria-label', 'Submitted, thank you!');
       });
     })();
+    // ── Testimonial flow rows ──────────────────────────────
+    (function () {
+      function initRow(id, direction) {
+        const track = document.getElementById(id);
+        if (!track) return;
+        const original = track.innerHTML;
+        track.innerHTML = original + original + original + original;
+
+        let x = direction === 'left' ? 0 : -track.scrollWidth / 4;
+        const speed = direction === 'left' ? -0.4 : 0.4;
+        let singleWidth = 0;
+        let paused = false;
+
+        track.parentElement.addEventListener('mouseenter', () => { paused = true; });
+        track.parentElement.addEventListener('mouseleave', () => { paused = false; });
+
+        function measure() { singleWidth = track.scrollWidth / 4; }
+
+        function tick() {
+          if (!paused && singleWidth > 0) {
+            x += speed;
+            if (x <= -singleWidth) x = 0;
+            if (x >= 0 && speed > 0) x = -singleWidth;
+            track.style.transform = 'translateX(' + x + 'px)';
+          }
+          requestAnimationFrame(tick);
+        }
+
+        document.fonts.ready.then(function () {
+          measure();
+          tick();
+        });
+
+        window.addEventListener('resize', measure);
+      }
+
+      initRow('tflowTrack1', 'left');
+      initRow('tflowTrack2', 'right');
+    })();
+
     // ── Marquee ────────────────────────────────────────────
     (function () {
       const track = document.getElementById('marqueeTrack');
