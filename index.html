@@ -950,7 +950,6 @@
       align-items: center;
       gap: 32px;
       white-space: nowrap;
-      animation: marqueeScroll 18s linear infinite;
       width: max-content;
     }
 
@@ -968,13 +967,6 @@
       font-size: 0.8rem !important;
       letter-spacing: 0 !important;
     }
-
-    @keyframes marqueeScroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-
-    .marquee:hover .marquee__track { animation-play-state: paused; }
 
     /* ─── Text reveal ────────────────────────────────────── */
     .reveal-text {
@@ -1301,7 +1293,7 @@
   <!-- ─── Marquee ────────────────────────────────────── -->
   <div class="marquee" aria-hidden="true">
     <div class="marquee__track" id="marqueeTrack">
-      <span>Hospitality Photography</span><span class="marquee__dot">·</span><span>North West England</span><span class="marquee__dot">·</span><span>Sawyer & Co.</span><span class="marquee__dot">·</span><span>Food &amp; Interiors</span><span class="marquee__dot">·</span><span>Brand Storytelling</span><span class="marquee__dot">·</span><span>Hospitality Photography</span><span class="marquee__dot">·</span><span>North West England</span><span class="marquee__dot">·</span><span>Sawyer & Co.</span><span class="marquee__dot">·</span><span>Food &amp; Interiors</span><span class="marquee__dot">·</span><span>Brand Storytelling</span><span class="marquee__dot">·</span>
+      <span>Hospitality Photography</span><span class="marquee__dot">·</span><span>North West England</span><span class="marquee__dot">·</span><span>Sawyer & Co.</span><span class="marquee__dot">·</span><span>Food &amp; Interiors</span><span class="marquee__dot">·</span><span>Brand Storytelling</span><span class="marquee__dot">·</span>
     </div>
   </div>
 
