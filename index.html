@@ -980,12 +980,11 @@
     .reveal-text {
       overflow: hidden;
       display: block;
-      line-height: 1.1;
     }
 
     .reveal-text__inner {
       display: block;
-      transform: translateY(100%);
+      transform: translateY(105%);
       transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -1492,7 +1491,7 @@
         const lines = el.innerHTML.split(/<br\s*\/?>/i);
         el.innerHTML = lines.map((line, i) =>
           '<span class="reveal-text" style="transition-delay:' + (i * 120) + 'ms"><span class="reveal-text__inner">' + line + '</span></span>'
-        ).join('<br>');
+        ).join('');
       });
 
       const obs = new IntersectionObserver((entries) => {
